@@ -44,9 +44,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private SensorEventListener listener = new SensorEventListener() {
+        private static final int PARTICLES = 0, GAS = 1, TMP = 2;
         @Override
         public void onSensorChanged(SensorEvent event) {
             // The value of the first subscript in the values array is the current light intensity
+            switch((int)event.values[0]){
+                case PARTICLES:{
+                    int pm10 = (int) event.values[1], pm25 = (int) event.values[2];
+                    Log.d("LIGHT_TEST", "PM10: " + String.valueOf(pm10));
+                    Log.d("LIGHT_TEST", "PM25: " + String.valueOf(pm25));
+                    break;
+                }
+                case GAS:{
+                    int lpg = (int) event.values[1], co = (int) event.values[2], smoke = (int) event.values[3];
+                    Log.d("LIGHT_TEST", "LPG: " + String.valueOf(lpg));
+                    Log.d("LIGHT_TEST", "CO: " + String.valueOf(co));
+                    Log.d("LIGHT_TEST", "SMOKE: " + String.valueOf(smoke));
+
+                    break;
+                }
+                case TMP:{
+                    int humidity = (int) event.values[1], tmp = (int) event.values[2];
+                    Log.d("LIGHT_TEST", "HUMIDITY: " + String.valueOf(humidity));
+                    Log.d("LIGHT_TEST", "TEMPERATURE: " + String.valueOf(tmp));
+                    break;
+                }
+                default:
+                    Log.d("LIGHT_TEST", "Invalid values[0]");
+            }
             float value = event.values[0];
             lightLevel.setText("Current light level is " + value + " lx" + "\n"  + sensorListString);
         }
